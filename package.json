@@ -1,19 +1,16 @@
 {
   "name": "seeye",
-  "version": "1.0.0",
-  "description": "a library of cellular automata",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "keywords": [
-    "ca",
-    "cellular",
-    "automata"
-  ],
-  "author": "Joe D'Alessandro",
-  "license": "ISC",
   "dependencies": {
-    "typescript": "^5.9.2"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1"
   }
 }
