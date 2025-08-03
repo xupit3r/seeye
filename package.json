@@ -1,0 +1,19 @@
+{
+  "name": "seeye",
+  "version": "1.0.0",
+  "description": "a library of cellular automata",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ca",
+    "cellular",
+    "automata"
+  ],
+  "author": "Joe D'Alessandro",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.9.2"
+  }
+}
