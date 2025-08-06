@@ -12,6 +12,14 @@ const clearCanvas = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+const strokeColor = (n1, n2, rs) => {
+  return `rgb(
+    ${Math.floor(255 - 42.5 * n1)} 
+    ${Math.floor(255 - 42.5 * n2)} 
+    ${Math.floor(255 - 42.5 * rs,)}
+  )`;
+}
+
 /**
  * creates something that looks like you are zooming in on
  * a map or something like that
@@ -51,21 +59,21 @@ const splashes = (rs) => {
 
   clearCanvas();
 
-  ctx.beginPath();
   for (let i = 0; i < 100; i++) {
     for (let j = 0; j < 100; j++) {
-        ctx.arc(
-          25 + j * 50, 
-          25 + i * 50, 
-          // just grow the radious
-          rs, 
-          0, 
-          Math.PI + (Math.PI * j) / 2, 
-          i % 2 !== 0
-        );
+      ctx.beginPath();
+      ctx.strokeStyle = strokeColor(i, j, rs);
+      ctx.arc(
+        25 + j * 50, 
+        25 + i * 50, 
+        // just grow the radious
+        rs, 
+        0, 
+        2* Math.PI
+      );
+      ctx.stroke();
     }
   }
-  ctx.stroke();
 }
 
 /**
