@@ -12,11 +12,11 @@ const clearCanvas = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-const strokeColor = (n1, n2, rs) => {
+const strokeColor = (n1, n2, n3) => {
   return `rgb(
     ${Math.floor(255 - 42.5 * n1)} 
     ${Math.floor(255 - 42.5 * n2)} 
-    ${Math.floor(255 - 42.5 * rs,)}
+    ${Math.floor(255 - 42.5 * n3,)}
   )`;
 }
 
@@ -33,17 +33,18 @@ const zoomies = (cs, ps) => {
 
   clearCanvas();
 
-  ctx.beginPath();
   for (let i = 0; i < 100; i++) {
+    ctx.beginPath();
     for (let j = 0; j < 100; j++) {
+      ctx.strokeStyle = strokeColor(i * j, i, j);
       ctx.quadraticCurveTo(
         start + i * cs,
         start + j * cs,
         start + i * ps,
         start + j * ps);
     }
+    ctx.stroke();
   }
-  ctx.stroke();
 }
 
 /**
@@ -54,7 +55,7 @@ const zoomies = (cs, ps) => {
  * every step, the radious grows by rs
  * @param {Number} rs 
  */
-const splashes = (rs) => {
+const splashes = (cs, ps) => {
   const ctx = verifyCanvas(document.getElementById("canvas"));
 
   clearCanvas();
@@ -62,14 +63,13 @@ const splashes = (rs) => {
   for (let i = 0; i < 100; i++) {
     for (let j = 0; j < 100; j++) {
       ctx.beginPath();
-      ctx.strokeStyle = strokeColor(i, j, rs);
+      ctx.strokeStyle = strokeColor(i, j, cs * ps);
       ctx.arc(
         25 + j * 50, 
-        25 + i * 50, 
-        // just grow the radious
-        rs, 
+        25 + i * 50,
+        cs * ps,
         0, 
-        2* Math.PI
+        2 * Math.PI
       );
       ctx.stroke();
     }
@@ -84,15 +84,16 @@ const splashes = (rs) => {
  */
 const drawAutomata = (automata) => {
   return () => {
-    let steps = 10;
-    let cs = 2;
-    let ps = 4;
+    let step = 0;
+    let cs = 1;
+    let ps = 10;
+
     const interval = setInterval(() => {
-      if (steps++ > 1000) {
+      if (step++ > 1000) {
         return clearInterval(interval);
       }
 
-      automata(cs += 1, ps += 1);
+      automata(cs++, ps++);
     }, 250);
   }
 }
