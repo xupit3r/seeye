@@ -63,15 +63,15 @@ const splashes = (cs, ps) => {
   for (let i = 0; i < 100; i++) {
     for (let j = 0; j < 100; j++) {
       ctx.beginPath();
-      ctx.strokeStyle = strokeColor(i, j, cs * ps);
+      ctx.fillStyle = strokeColor(i, j, (i * j) % 255);
       ctx.arc(
         25 + j * 50, 
         25 + i * 50,
-        cs * ps,
-        0, 
-        2 * Math.PI
+        cs,
+        0,
+        ps * Math.PI
       );
-      ctx.stroke();
+      ctx.fill();
     }
   }
 }
@@ -85,15 +85,15 @@ const splashes = (cs, ps) => {
 const drawAutomata = (automata) => {
   return () => {
     let step = 0;
-    let cs = 1;
-    let ps = 10;
+    let cs = 2;
+    let ps = .25;
 
     const interval = setInterval(() => {
       if (step++ > 1000) {
         return clearInterval(interval);
       }
 
-      automata(cs++, ps++);
+      automata(cs++, ps += 0.01);
     }, 250);
   }
 }
