@@ -1,4 +1,6 @@
-const verifyCanvas = (canvas) => {
+const verifyCanvas = () => {
+  const canvas = document.getElementById("canvas");
+
   if (canvas) {
     return canvas.getContext("2d");
   }
@@ -12,11 +14,11 @@ const clearCanvas = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-const strokeColor = (n1, n2, n3) => {
+const color = (n1, n2, n3) => {
   return `rgb(
-    ${Math.floor(255 - 42.5 * n1)} 
-    ${Math.floor(255 - 42.5 * n2)} 
-    ${Math.floor(255 - 42.5 * n3,)}
+    ${Math.floor(n1)} 
+    ${Math.floor(n2)} 
+    ${Math.floor(n3)}
   )`;
 }
 
@@ -36,7 +38,7 @@ const zoomies = (cs, ps) => {
   for (let i = 0; i < 100; i++) {
     ctx.beginPath();
     for (let j = 0; j < 100; j++) {
-      ctx.strokeStyle = strokeColor(i * j, i, j);
+      ctx.strokeStyle = color(i * j, i, j);
       ctx.quadraticCurveTo(
         start + i * cs,
         start + j * cs,
@@ -58,12 +60,10 @@ const zoomies = (cs, ps) => {
 const splashes = (cs, ps) => {
   const ctx = verifyCanvas(document.getElementById("canvas"));
 
-  clearCanvas();
-
   for (let i = 0; i < 100; i++) {
     for (let j = 0; j < 100; j++) {
       ctx.beginPath();
-      ctx.fillStyle = strokeColor(i, j, (i * j) % 255);
+      ctx.strokeStyle = color(i * j, 100, cs * ps);
       ctx.arc(
         25 + j * 50, 
         25 + i * 50,
@@ -71,9 +71,72 @@ const splashes = (cs, ps) => {
         0,
         ps * Math.PI
       );
-      ctx.fill();
+      ctx.stroke();
     }
   }
+}
+
+const heart = (cs, rs) => {
+  const ctx = verifyCanvas(document.getElementById("canvas"));
+
+  ctx.fillStyle = color(255, 0, 0);
+  ctx.beginPath();
+  ctx.bezierCurveTo(
+    75 + cs, 
+    37 + rs, 
+    70 + cs, 
+    25 + rs,
+    50 + cs,
+    25 + rs
+  );
+  ctx.bezierCurveTo(
+    20 + cs,
+    25 + rs,
+    20 + cs,
+    62.5 + rs,
+    20 + cs,
+    62.5 + rs
+  );
+  ctx.bezierCurveTo(
+    20 + cs,
+    80 + rs,
+    40 + cs,
+    102 + rs,
+    75 + cs,
+    120 + rs
+  );
+  ctx.bezierCurveTo(
+    110 + cs,
+    102 + rs,
+    130 + cs,
+    80 + rs,
+    130 + cs,
+    62.5 + rs
+  );
+  ctx.bezierCurveTo(
+    130 + cs,
+    62.5 + rs,
+    130 + cs,
+    25 + rs,
+    100 + cs,
+    25 + rs
+  );
+  ctx.bezierCurveTo(
+    85 + cs, 
+    25 + rs, 
+    75 + cs, 
+    37 + rs, 
+    75 + cs,
+    40 + rs
+  );
+  ctx.fill();
+  ctx.closePath();
+}
+
+const all = (cs, rs) => {
+  clearCanvas();
+  splashes(cs, rs);
+  heart(cs, rs);
 }
 
 /**
@@ -93,10 +156,10 @@ const drawAutomata = (automata) => {
         return clearInterval(interval);
       }
 
-      automata(cs++, ps += 0.01);
+      automata(cs++, ps += 0.5);
     }, 250);
   }
 }
 
 
-window.addEventListener("load", drawAutomata(splashes));
+window.addEventListener("load", drawAutomata(all));
