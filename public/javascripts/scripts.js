@@ -22,6 +22,20 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+const checkers = (step) => {
+  const ctx = verifyCanvas();
+  
+  for (let i = 0; i < 100; i++) {
+    for(let j = 0; j < 100; j++) {
+      if ((i + j) % 2) {
+        ctx.fillRect(i * step, j * step, 10, 10);
+      } else {
+        ctx.strokeRect(i * step, j * step, 10, 10);
+      }
+    }
+  }
+}
+
 /**
  * creates something that looks like you are zooming in on
  * a map or something like that
@@ -29,8 +43,8 @@ const color = (n1, n2, n3) => {
  * @param {Number} cs control point step amount
  * @param {Number} ps position step amount
  */
-const zoomies = (cs, ps) => {
-  const ctx = verifyCanvas(document.getElementById("canvas"));
+const zoomies = (step, cs, ps) => {
+  const ctx = verifyCanvas();
   const start = 0;
 
   clearCanvas();
@@ -57,7 +71,7 @@ const zoomies = (cs, ps) => {
  * every step, the radious grows by rs
  * @param {Number} rs 
  */
-const splashes = (cs, ps) => {
+const splashes = (step, cs, ps) => {
   const ctx = verifyCanvas(document.getElementById("canvas"));
 
   for (let i = 0; i < 100; i++) {
@@ -76,7 +90,7 @@ const splashes = (cs, ps) => {
   }
 }
 
-const heart = (cs, rs) => {
+const heart = (step, cs, rs) => {
   const ctx = verifyCanvas(document.getElementById("canvas"));
 
   ctx.fillStyle = color(255, 0, 0);
@@ -133,10 +147,9 @@ const heart = (cs, rs) => {
   ctx.closePath();
 }
 
-const all = (cs, rs) => {
+const all = (step, cs, rs) => {
   clearCanvas();
-  splashes(cs, rs);
-  heart(cs, rs);
+  checkers(step);
 }
 
 /**
@@ -156,7 +169,7 @@ const drawAutomata = (automata) => {
         return clearInterval(interval);
       }
 
-      automata(cs++, ps += 0.5);
+      automata(step, cs++, ps += 0.5);
     }, 250);
   }
 }
