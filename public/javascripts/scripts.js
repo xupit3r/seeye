@@ -27,10 +27,14 @@ const checkers = (step) => {
   
   for (let i = 0; i < 100; i++) {
     for(let j = 0; j < 100; j++) {
-      if ((i + j) % 2) {
+      if ((i + j) % 3 === 1) {
+        ctx.fillStyle = color(0, 0, 0)
         ctx.fillRect(i * step, j * step, 10, 10);
-      } else {
+      } else if ((i + j) % 3 == 2) {
         ctx.strokeRect(i * step, j * step, 10, 10);
+      } else {
+        ctx.fillStyle = color(255, 50, 50)
+        ctx.fillRect(i * step, j * step, 10, 10);
       }
     }
   }
@@ -149,7 +153,7 @@ const heart = (step, cs, rs) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  checkers(step);
+  checkers(step, cs, rs);
 }
 
 /**
