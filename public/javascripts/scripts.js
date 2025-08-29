@@ -22,19 +22,18 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
-const infinitePacman = (step) => {
+const roughWaters = (step) => {
   const ctx = verifyCanvas();
 
   for (let i = 0; i < 2; i++) {
     for (let j = 0; j < 3; j++) {
       ctx.strokeStyle = color(255, 0, 255)
       ctx.arc(
-        j * step % 400, 
-        i * step % 400,
+        j * step, 
+        i * step,
         i * j,
         step % 360,
-        Math.PI,
-        true
+        Math.PI
       );
       ctx.stroke();
     }
@@ -172,7 +171,7 @@ const heart = (step, cs, rs) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  infinitePacman(step, cs, rs);
+  roughWaters(step, cs, rs);
 }
 
 /**
