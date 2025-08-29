@@ -22,6 +22,12 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+/**
+ * creates a small scene of a ship running through rough
+ * waters
+ * 
+ * @param {Number} step current step of the animation 
+ */
 const roughWaters = (step) => {
   const ctx = verifyCanvas();
 
@@ -40,6 +46,11 @@ const roughWaters = (step) => {
   }
 }
 
+/**
+ * creates an infinitely dividing checkboard....
+ * 
+ * @param {Number} step the current step of the animation
+ */
 const checkers = (step) => {
   const ctx = verifyCanvas();
   
@@ -112,63 +123,6 @@ const splashes = (step, cs, ps) => {
   }
 }
 
-const heart = (step, cs, rs) => {
-  const ctx = verifyCanvas(document.getElementById("canvas"));
-
-  ctx.fillStyle = color(255, 0, 0);
-  ctx.beginPath();
-  ctx.bezierCurveTo(
-    75 + cs, 
-    37 + rs, 
-    70 + cs, 
-    25 + rs,
-    50 + cs,
-    25 + rs
-  );
-  ctx.bezierCurveTo(
-    20 + cs,
-    25 + rs,
-    20 + cs,
-    62.5 + rs,
-    20 + cs,
-    62.5 + rs
-  );
-  ctx.bezierCurveTo(
-    20 + cs,
-    80 + rs,
-    40 + cs,
-    102 + rs,
-    75 + cs,
-    120 + rs
-  );
-  ctx.bezierCurveTo(
-    110 + cs,
-    102 + rs,
-    130 + cs,
-    80 + rs,
-    130 + cs,
-    62.5 + rs
-  );
-  ctx.bezierCurveTo(
-    130 + cs,
-    62.5 + rs,
-    130 + cs,
-    25 + rs,
-    100 + cs,
-    25 + rs
-  );
-  ctx.bezierCurveTo(
-    85 + cs, 
-    25 + rs, 
-    75 + cs, 
-    37 + rs, 
-    75 + cs,
-    40 + rs
-  );
-  ctx.fill();
-  ctx.closePath();
-}
-
 const all = (step, cs, rs) => {
   clearCanvas();
   roughWaters(step, cs, rs);
@@ -178,7 +132,7 @@ const all = (step, cs, rs) => {
  * carries out the drawing of the cellular automata
  * 
  * @param {Function} automata a function that draws a CA
- * @returns 
+ * @returns an interval for the animation
  */
 const drawAutomata = (automata) => {
   return () => {
@@ -193,6 +147,8 @@ const drawAutomata = (automata) => {
 
       automata(step, cs++, ps += 0.5);
     }, 250);
+
+    return interval;
   }
 }
 
