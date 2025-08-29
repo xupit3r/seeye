@@ -25,17 +25,17 @@ const color = (n1, n2, n3) => {
 const checkers = (step) => {
   const ctx = verifyCanvas();
   
-  for (let i = 0; i < 100; i++) {
-    for(let j = 0; j < 100; j++) {
+  for (let i = 0; i < 20; i++) {
+    for(let j = 0; j < 20; j++) {
       if ((i + j) % 3 === 1) {
-        ctx.fillStyle = color(0, 0, 0)
-        ctx.fillRect(i * step, j * step, 10, 10);
+        ctx.fillStyle = color(50, 50, 255)
       } else if ((i + j) % 3 == 2) {
-        ctx.strokeRect(i * step, j * step, 10, 10);
+        ctx.fillStyle = color(50, 255, 50)
       } else {
         ctx.fillStyle = color(255, 50, 50)
-        ctx.fillRect(i * step, j * step, 10, 10);
       }
+
+      ctx.fillRect(i * step % 400, j * step % 400, 10, 10);
     }
   }
 }
