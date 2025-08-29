@@ -22,6 +22,25 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+const infinitePacman = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 3; j++) {
+      ctx.strokeStyle = color(255, 0, 255)
+      ctx.arc(
+        j * step % 400, 
+        i * step % 400,
+        i * j,
+        step % 360,
+        Math.PI,
+        true
+      );
+      ctx.stroke();
+    }
+  }
+}
+
 const checkers = (step) => {
   const ctx = verifyCanvas();
   
@@ -153,7 +172,7 @@ const heart = (step, cs, rs) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  checkers(step, cs, rs);
+  infinitePacman(step, cs, rs);
 }
 
 /**
