@@ -23,6 +23,29 @@ const color = (n1, n2, n3) => {
 }
 
 /**
+ * creates a snall shell like thing....
+ * 
+ * @param {Number} step current step of the animation 
+ */
+const shell = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 3; j++) {
+      ctx.strokeStyle = color(255, 0, 255)
+      ctx.arc(
+        200, 
+        200,
+        i * j * step,
+        step % 360,
+        Math.PI
+      );
+      ctx.stroke();
+    }
+  }
+}
+
+/**
  * creates a small scene of a ship running through rough
  * waters
  * 
@@ -125,7 +148,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  roughWaters(step, cs, rs);
+  shell(step, cs, rs);
 }
 
 /**
@@ -141,7 +164,7 @@ const drawAutomata = (automata) => {
     let ps = .25;
 
     const interval = setInterval(() => {
-      if (step++ > 1000) {
+      if (step++ > 1600) {
         return clearInterval(interval);
       }
 
