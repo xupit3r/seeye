@@ -32,11 +32,13 @@ const cooling = (step) => {
 
   for (let i = 0; i < 400; i++) {
     for (let j = 0; j < 400; j++) {
+      let x = Math.floor(i + (step * Math.random()));
+      let y = Math.floor(j + (step * Math.random()));
       ctx.beginPath();
       ctx.strokeStyle = color(50 + i * j, 50 + i, 50 + j)
       ctx.arc(
-        Math.floor(i + (300 * Math.random())), 
-        Math.floor(j + (300 * Math.random())),
+        x, 
+        y,
         1,
         0,
         2 * Math.PI
