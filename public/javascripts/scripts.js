@@ -23,6 +23,30 @@ const color = (n1, n2, n3) => {
 }
 
 /**
+ * a hot lower right corner, gives way to cooling embers
+ * 
+ * @param {Number} step the current step of the animation 
+ */
+const cooling = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 400; i++) {
+    for (let j = 0; j < 400; j++) {
+      ctx.beginPath();
+      ctx.strokeStyle = color(50 + i, 30 + i + j, 50 + j)
+      ctx.arc(
+        Math.floor(i + (300 * Math.random())), 
+        Math.floor(j + (300 * Math.random())),
+        1,
+        0,
+        2 * Math.PI
+      );
+      ctx.stroke();
+    }
+  }
+}
+
+/**
  * simulates going through a tunnel
  * 
  * @param {Number} step the current step in the animation 
@@ -172,7 +196,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  tunnel(step, cs, rs);
+  cooling(step, cs, rs);
 }
 
 /**
