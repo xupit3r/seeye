@@ -23,7 +23,31 @@ const color = (n1, n2, n3) => {
 }
 
 /**
- * creates a snall shell like thing....
+ * simulates going through a tunnel
+ * 
+ * @param {Number} step the current step in the animation 
+ */
+const tunnel = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 100; i++) {
+    for (let j = 0; j < 100; j++) {
+      ctx.beginPath();
+      ctx.strokeStyle = color(255, 0, 255)
+      ctx.arc(
+        200, 
+        200,
+        i * j + step,
+        0,
+        2 * Math.PI
+      );
+      ctx.stroke();
+    }
+  }
+}
+
+/**
+ * creates a snall shell like
  * 
  * @param {Number} step current step of the animation 
  */
@@ -148,7 +172,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  shell(step, cs, rs);
+  tunnel(step, cs, rs);
 }
 
 /**
