@@ -22,6 +22,51 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+/*
+ * squares can create choas too
+ * 
+ * @param {Number} step the current step of the animation
+ */
+const squareChaos = (step) => {
+  const ctx = verifyCanvas();
+  
+  for (let i = 5; i < 20; i++) {
+    for(let j = 5; j < 20; j++) {
+      ctx.strokeRect(
+        i * step % 400,
+        j * step % 400,
+        j * step % 20, 
+        i * step % 20
+      );
+    }
+  }
+}
+
+
+/**
+ * some speaker-ish fun
+ * 
+ * @param {Number} step the current step of the animation 
+ */
+const beepboop = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      ctx.beginPath();
+      ctx.strokeStyle = color(100 + i * j, 100 + i, 100 + j)
+      ctx.arc(
+        200, 
+        200,
+        Math.floor(i + j + (step * Math.random())),
+        0,
+        2 * Math.PI
+      );
+      ctx.stroke();
+    }
+  }
+}
+
 /**
  * a hot lower right corner, gives way to cooling embers
  * 
@@ -198,7 +243,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  cooling(step, cs, rs);
+  squareChaos(step, cs, rs);
 }
 
 /**
