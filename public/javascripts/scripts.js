@@ -23,6 +23,25 @@ const color = (n1, n2, n3) => {
 }
 
 /*
+ * simple interval oscillator
+ * 
+ * @param {Number} step the current step of the animation
+ */
+const oscillate = (step) => {
+  const ctx = verifyCanvas();
+  
+  let lower = 0;
+  let upper = 100;
+  let x = y = (Math.floor(step / upper) % 2
+    ? upper - step % upper 
+    : lower + step % upper
+  );
+
+  ctx.fillStyle = color(255, 75, 255)
+  ctx.fillRect(x, y, 25, 25);
+}
+
+/*
  * squares can create choas too
  * 
  * @param {Number} step the current step of the animation
@@ -243,7 +262,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  squareChaos(step, cs, rs);
+  oscillate(step, cs, rs);
 }
 
 /**
