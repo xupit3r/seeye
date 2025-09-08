@@ -22,6 +22,13 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+const bound =  (step, lower, upper) => {
+  return (Math.floor(step / upper) % 2
+    ? upper - step % upper 
+    : lower + step % upper
+  );
+}
+
 /*
  * simple interval oscillator
  * 
@@ -29,13 +36,8 @@ const color = (n1, n2, n3) => {
  */
 const oscillate = (step) => {
   const ctx = verifyCanvas();
-  
-  let lower = 0;
-  let upper = 100;
-  let x = y = (Math.floor(step / upper) % 2
-    ? upper - step % upper 
-    : lower + step % upper
-  );
+  const x = bound(step, 0, 300);
+  const y = bound(step, 0, 200);
 
   ctx.fillStyle = color(255, 75, 255)
   ctx.fillRect(x, y, 25, 25);
@@ -283,7 +285,7 @@ const drawAutomata = (automata) => {
       }
 
       automata(step, cs++, ps += 0.5);
-    }, 250);
+    }, 50);
 
     return interval;
   }
