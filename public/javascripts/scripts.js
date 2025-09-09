@@ -23,10 +23,47 @@ const color = (n1, n2, n3) => {
 }
 
 const bound =  (step, lower, upper) => {
-  return (Math.floor(step / upper) % 2
-    ? upper - step % upper 
-    : lower + step % upper
+  return (Math.floor(step / (upper - lower)) % 2
+    ? upper - step % (upper - lower)
+    : lower + step % (upper - lower)
   );
+}
+
+
+const boom = (step) => {
+  const ctx = verifyCanvas();
+  ctx.beginPath();
+  ctx.strokeStyle = color(255, 100, 255)
+  ctx.arc(
+    200, 
+    200,
+    bound(step, 0, 200),
+    0,
+    2 * Math.PI
+  );
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = color(255, 100, 255)
+  ctx.arc(
+    200, 
+    200,
+    bound(step, 50, 200),
+    0,
+    2 * Math.PI
+  );
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = color(255, 100, 255)
+  ctx.arc(
+    200, 
+    200,
+    bound(step, 100, 200),
+    0,
+    2 * Math.PI
+  );
+  ctx.stroke();
 }
 
 /*
@@ -264,7 +301,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  oscillate(step, cs, rs);
+  boom(step, cs, rs);
 }
 
 /**
