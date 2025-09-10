@@ -23,47 +23,34 @@ const color = (n1, n2, n3) => {
 }
 
 const bound =  (step, lower, upper) => {
-  return (Math.floor(step / (upper - lower)) % 2
-    ? upper - step % (upper - lower)
-    : lower + step % (upper - lower)
+  const distance = upper - lower;
+
+  return (Math.floor(step / distance) % 2
+    ? upper - step % distance
+    : lower + step % distance
   );
 }
 
 
+/**
+ * a boom pattern with interferance
+ * @param {Number} step  
+ */
 const boom = (step) => {
   const ctx = verifyCanvas();
-  ctx.beginPath();
-  ctx.strokeStyle = color(255, 100, 255)
-  ctx.arc(
-    200, 
-    200,
-    bound(step, 0, 200),
-    0,
-    2 * Math.PI
-  );
-  ctx.stroke();
 
-  ctx.beginPath();
-  ctx.strokeStyle = color(255, 100, 255)
-  ctx.arc(
-    200, 
-    200,
-    bound(step, 50, 200),
-    0,
-    2 * Math.PI
-  );
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.strokeStyle = color(255, 100, 255)
-  ctx.arc(
-    200, 
-    200,
-    bound(step, 100, 200),
-    0,
-    2 * Math.PI
-  );
-  ctx.stroke();
+  for (let i = 0; i < 20; i++) {
+    ctx.beginPath();
+    ctx.strokeStyle = color(255, bound(step, i, 255), 255)
+    ctx.arc(
+      200, 
+      200,
+      bound(step, i * 10, 200),
+      0,
+      2 * Math.PI
+    );
+    ctx.stroke();
+  }
 }
 
 /*
@@ -301,7 +288,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  boom(step, cs, rs);
+  oscillate(step, cs, rs);
 }
 
 /**
