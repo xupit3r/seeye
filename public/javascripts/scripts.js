@@ -22,6 +22,18 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
+// global state of the canvas
+const state = [];
+for (let i = 0; i < 400; i++) {
+  for (let j = 0; j < 400; j++) {
+    if (!state[i]) {
+      state[i] = [];
+    }
+
+    state[i][j] = Math.random() > .5 ? 0 : 1;
+  }
+}
+
 const bound =  (step, lower, upper) => {
   const distance = upper - lower;
 
@@ -29,6 +41,33 @@ const bound =  (step, lower, upper) => {
     ? upper - step % distance
     : lower + step % distance
   );
+}
+
+const paint = (i, j) => {
+  return state[i][j] ? color(255, 255, 255) : color(100, 100, 100)
+}
+
+const moar = (step) => {
+  const ctx = verifyCanvas();
+  
+  for (let i = 0; i < 400; i++) {
+    for (let j = 0; j < 400; j++) {
+      const me = state[i][j];
+      const left = state[i - 1] && state[i - 1][j - 1];
+      const right = state[i + 1] && state[i + 1][j + 1];
+
+      if (me && left && !right) {
+        state[i][j] = 0;
+      } else {
+        state[i][j] = 1;
+      }
+
+      ctx.beginPath();
+      ctx.fillStyle = paint(i, j);
+      ctx.arc(i, j, 1, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+  }
 }
 
 const manifestDarkness = (step) => {
@@ -322,7 +361,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  manifestDarkness(step, cs, rs);
+  moar(step, cs, rs);
 }
 
 /**
@@ -343,7 +382,7 @@ const drawAutomata = (automata) => {
       }
 
       automata(step, cs++, ps += 0.5);
-    }, 50);
+    }, 500);
 
     return interval;
   }
