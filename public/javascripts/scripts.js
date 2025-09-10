@@ -31,6 +31,21 @@ const bound =  (step, lower, upper) => {
   );
 }
 
+const manifestDarkness = (step) => {
+  const ctx = verifyCanvas();
+  
+  for (let i = 0; i < 400; i++) {
+    for(let j = 0; j < 400; j++) {
+      if (Math.random() * j > step) {
+        ctx.beginPath();
+        ctx.fillStyle = color(255, 255, 255);
+        ctx.arc(i, j, 1, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+  }
+}
+
 const wheat = (step) => {
   const ctx = verifyCanvas();
 
@@ -306,11 +321,8 @@ const splashes = (step, cs, ps) => {
 }
 
 const all = (step, cs, rs) => {
-  c
-  /**
-   * 
-   **/earCanvas();
-  wheat(step, cs, rs);
+  clearCanvas();
+  manifestDarkness(step, cs, rs);
 }
 
 /**
