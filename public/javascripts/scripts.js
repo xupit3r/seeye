@@ -31,6 +31,25 @@ const bound =  (step, lower, upper) => {
   );
 }
 
+const wheat = (step) => {
+  const ctx = verifyCanvas();
+
+  for (let i = 0; i < 10; i++) {
+    ctx.moveTo(0, 0);
+    ctx.beginPath();
+    ctx.strokeStyle = color(255, 255, i * 25);
+    ctx.bezierCurveTo(
+      bound(step, i * 5, 50),
+      bound(step, i * 10, 100),
+      bound(step, 0, 200),
+      bound(step, 0, 400),
+      400,
+      400
+    );
+    ctx.stroke();
+  }
+}
+
 
 /**
  * a boom pattern with interferance
@@ -287,8 +306,11 @@ const splashes = (step, cs, ps) => {
 }
 
 const all = (step, cs, rs) => {
-  clearCanvas();
-  oscillate(step, cs, rs);
+  c
+  /**
+   * 
+   **/earCanvas();
+  wheat(step, cs, rs);
 }
 
 /**
