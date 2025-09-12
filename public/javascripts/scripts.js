@@ -47,19 +47,24 @@ const paint = (i, j) => {
   return state[i][j] ? color(255, 255, 255) : color(100, 100, 100)
 }
 
-const moar = (step) => {
+const fadeAht = (step) => {
   const ctx = verifyCanvas();
   
   for (let i = 0; i < 400; i++) {
     for (let j = 0; j < 400; j++) {
-      const me = state[i][j];
-      const left = state[i - 1] && state[i - 1][j - 1];
-      const right = state[i + 1] && state[i + 1][j + 1];
 
-      if (me && left && !right) {
-        state[i][j] = 0;
-      } else {
+      const me = state[i][j];
+      const left = state[i - 1] ? state[i - 1][j] : 0;
+      const right = state[i + 1] ?  state[i + 1][j] : 0;
+      const above = state[i][j - 1] ? state[i][j - 1] : 0;
+      const below = state[i][j + 1] ?  state[i][j + 1] : 0;
+
+      if (me && right && !below) {
         state[i][j] = 1;
+      } else if (me && !right && below) {
+        state[i][j] = 1;
+      } else {
+        state[i][j] = 0;
       }
 
       ctx.beginPath();
@@ -73,8 +78,8 @@ const moar = (step) => {
 const manifestDarkness = (step) => {
   const ctx = verifyCanvas();
   
-  for (let i = 0; i < 400; i++) {
-    for(let j = 0; j < 400; j++) {
+  for (let i = 0; i < 40; i++) {
+    for(let j = 0; j < 40; j++) {
       if (Math.random() * j > step) {
         ctx.beginPath();
         ctx.fillStyle = color(255, 255, 255);
@@ -361,7 +366,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  moar(step, cs, rs);
+  fadeAht(step, cs, rs);
 }
 
 /**
