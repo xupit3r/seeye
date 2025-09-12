@@ -30,7 +30,7 @@ for (let i = 0; i < 400; i++) {
       state[i] = [];
     }
 
-    state[i][j] = Math.random() > .5 ? 0 : 1;
+    state[i][j] = Math.floor(Math.random() * 4);
   }
 }
 
@@ -44,14 +44,26 @@ const bound =  (step, lower, upper) => {
 }
 
 const paint = (i, j) => {
-  return state[i][j] ? color(255, 255, 255) : color(100, 100, 100)
+  const s = state[i][j];
+
+  if (s == 0) {
+    return color(100, 100, 100);
+  } else if (s === 1) {
+    return color(255, 255, 255);
+  } else if (s === 2) {
+    return color(255, 100, 100);
+  } else if (s === 3) {
+    return color(100, 255, 100)
+  } else if (s === 4) {
+    return color(100, 100, 255);
+  }
 }
 
 const fadeAht = (step) => {
   const ctx = verifyCanvas();
   
-  for (let i = 0; i < 400; i++) {
-    for (let j = 0; j < 400; j++) {
+  for (let i = 0; i < 400; i+=10) {
+    for (let j = 0; j < 400; j+=10) {
 
       const me = state[i][j];
       const left = state[i - 1] ? state[i - 1][j] : 0;
@@ -59,17 +71,21 @@ const fadeAht = (step) => {
       const above = state[i][j - 1] ? state[i][j - 1] : 0;
       const below = state[i][j + 1] ?  state[i][j + 1] : 0;
 
-      if (me && right && !below) {
+      if (me === 0 && (above > 2 || below < 2)) {
         state[i][j] = 1;
-      } else if (me && !right && below) {
-        state[i][j] = 1;
+      } else if (me === 1 && (left > 2 || right < 2)) {
+        state[i][j] = 2;
+      } else if (me === 2 && (above > 1 || below < 1)) {
+        state[i][j] = 3;
+      } else if (me === 3 && (left > 3 || right < 3)) {
+        state[i][j] = 4;
       } else {
         state[i][j] = 0;
       }
 
       ctx.beginPath();
       ctx.fillStyle = paint(i, j);
-      ctx.arc(i, j, 1, 0, 2 * Math.PI);
+      ctx.arc(i + 5, j + 5, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
   }
