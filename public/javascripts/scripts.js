@@ -30,9 +30,24 @@ for (let i = 0; i < 400; i++) {
       state[i] = [];
     }
 
-    state[i][j] = Math.floor(Math.random() * 4);
+    state[i][j] = 0
   }
 }
+
+// some initial config
+state[200][200] = 2;
+state[201][201] = 2;
+state[202][202] = 2;
+state[203][203] = 2;
+state[201][200] = 2;
+state[201][200] = 2;
+state[201][200] = 2;
+state[201][200] = 2;
+state[202][201] = 2;
+state[202][201] = 2;
+state[202][201] = 2;
+state[202][201] = 2;
+
 
 const bound =  (step, lower, upper) => {
   const distance = upper - lower;
@@ -62,25 +77,22 @@ const paint = (i, j) => {
 const fadeAht = (step) => {
   const ctx = verifyCanvas();
   
-  for (let i = 0; i < 400; i+=10) {
-    for (let j = 0; j < 400; j+=10) {
+  for (let i = 0; i < 400; i++) {
+    for (let j = 0; j < 400; j++) {
 
-      const me = state[i][j];
       const left = state[i - 1] ? state[i - 1][j] : 0;
       const right = state[i + 1] ?  state[i + 1][j] : 0;
       const above = state[i][j - 1] ? state[i][j - 1] : 0;
       const below = state[i][j + 1] ?  state[i][j + 1] : 0;
 
-      if (me === 0 && (above > 2 || below < 2)) {
+      if ((step > 1) && left && !right) {
         state[i][j] = 1;
-      } else if (me === 1 && (left > 2 || right < 2)) {
+      } else if (step > 1 && right && !left) {
         state[i][j] = 2;
-      } else if (me === 2 && (above > 1 || below < 1)) {
+      } else if (step > 1 && above && !below) {
         state[i][j] = 3;
-      } else if (me === 3 && (left > 3 || right < 3)) {
+      } else if (step > 1 && below && !above) {
         state[i][j] = 4;
-      } else {
-        state[i][j] = 0;
       }
 
       ctx.beginPath();
@@ -94,8 +106,8 @@ const fadeAht = (step) => {
 const manifestDarkness = (step) => {
   const ctx = verifyCanvas();
   
-  for (let i = 0; i < 40; i++) {
-    for(let j = 0; j < 40; j++) {
+  for (let i = 0; i < 400; i++) {
+    for(let j = 0; j < 400; j++) {
       if (Math.random() * j > step) {
         ctx.beginPath();
         ctx.fillStyle = color(255, 255, 255);
@@ -117,7 +129,7 @@ const wheat = (step) => {
       bound(step, i * 5, 50),
       bound(step, i * 10, 100),
       bound(step, 0, 200),
-      bound(step, 0, 400),
+      bound(step, 0, 300),
       400,
       400
     );
@@ -403,7 +415,7 @@ const drawAutomata = (automata) => {
       }
 
       automata(step, cs++, ps += 0.5);
-    }, 500);
+    }, 1000);
 
     return interval;
   }
