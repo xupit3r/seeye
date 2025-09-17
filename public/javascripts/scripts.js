@@ -22,33 +22,6 @@ const color = (n1, n2, n3) => {
   )`;
 }
 
-// global state of the canvas
-const state = [];
-for (let i = 0; i < 400; i++) {
-  for (let j = 0; j < 400; j++) {
-    if (!state[i]) {
-      state[i] = [];
-    }
-
-    state[i][j] = 0
-  }
-}
-
-// some initial config
-state[200][200] = 2;
-state[201][201] = 2;
-state[202][202] = 2;
-state[203][203] = 2;
-state[201][200] = 2;
-state[201][200] = 2;
-state[201][200] = 2;
-state[201][200] = 2;
-state[202][201] = 2;
-state[202][201] = 2;
-state[202][201] = 2;
-state[202][201] = 2;
-
-
 const bound =  (step, lower, upper) => {
   const distance = upper - lower;
 
@@ -57,6 +30,53 @@ const bound =  (step, lower, upper) => {
     : lower + step % distance
   );
 }
+
+const copyState = (state, newState) => {
+  for (let i = 0; i < 40; i++) {
+    for (let j = 0; j < 40; j++) {
+      state[i][j] = newState[i][j];
+    }
+  }
+}
+
+const initState = () => {
+  let state = [];
+
+  for (let i = 0; i < 40; i++) {
+    for (let j = 0; j < 40; j++) {
+      if (!state[i]) {
+        state[i] = [];
+      }
+
+      state[i][j] = Math.random() > .6 ? 1 : 0;
+    }
+  }
+
+  // state[10][10] = 1;
+  // state[10][11] = 1;
+  // state[11][10] = 1;
+  // state[11][11] = 1;
+  // state[12][11] = 1;
+  // state[13][11] = 1;
+  // state[14][11] = 1;
+
+  return state;
+}
+
+// global state of the canvas
+const state = initState();
+const m = state.length;
+const n = state[0].length;
+const directions = [
+  [0, 1],
+  [1, 0],
+  [0, -1],
+  [-1, 0],
+  [1, 1],
+  [-1, -1],
+  [1, -1], 
+  [-1, 1]
+];
 
 const paint = (i, j) => {
   const s = state[i][j];
@@ -76,31 +96,41 @@ const paint = (i, j) => {
 
 const fadeAht = (step) => {
   const ctx = verifyCanvas();
+
+  const newState = [];
   
-  for (let i = 0; i < 400; i++) {
-    for (let j = 0; j < 400; j++) {
+  for (let i = 0; i < 40; i++) {
+    for (let j = 0; j < 40; j++) {
+      let live = 0;
+      
+      if (!newState[i]) {
+        newState[i] = [];
+      }
 
-      const left = state[i - 1] ? state[i - 1][j] : 0;
-      const right = state[i + 1] ?  state[i + 1][j] : 0;
-      const above = state[i][j - 1] ? state[i][j - 1] : 0;
-      const below = state[i][j + 1] ?  state[i][j + 1] : 0;
+      for (let [dx, dy] of directions) {
+        let x = i + dx;
+        let y = j + dy;
 
-      if ((step > 1) && left && !right) {
-        state[i][j] = 1;
-      } else if (step > 1 && right && !left) {
-        state[i][j] = 2;
-      } else if (step > 1 && above && !below) {
-        state[i][j] = 3;
-      } else if (step > 1 && below && !above) {
-        state[i][j] = 4;
+        if (x >= 0 && x < m && y >= 0 && y < n
+          && (state[x][y] === 1)) {
+          live++;
+        }
+      }
+
+      if (state[i][j] === 1 && live < 2) {
+        newState[i][j] = 0;
+      } else if (state[i][j] === 0 && live === 3) {
+        newState[i][j] = 1;
       }
 
       ctx.beginPath();
       ctx.fillStyle = paint(i, j);
-      ctx.arc(i + 5, j + 5, 5, 0, 2 * Math.PI);
+      ctx.arc(i * 10 + 5, j * 10 + 5, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
   }
+
+  copyState(state, newState);
 }
 
 const manifestDarkness = (step) => {
