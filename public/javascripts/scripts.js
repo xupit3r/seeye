@@ -52,18 +52,11 @@ const initState = () => {
     }
   }
 
-  // state[10][10] = 1;
-  // state[10][11] = 1;
-  // state[11][10] = 1;
-  // state[11][11] = 1;
-  // state[12][11] = 1;
-  // state[13][11] = 1;
-  // state[14][11] = 1;
-
   return state;
 }
 
 // global state of the canvas
+const TIME_BETWEEN_DRAWS = 300;
 const state = initState();
 const m = state.length;
 const n = state[0].length;
@@ -94,7 +87,7 @@ const paint = (i, j) => {
   }
 }
 
-const fadeAht = (step) => {
+const conway = (step) => {
   const ctx = verifyCanvas();
 
   const newState = [];
@@ -102,7 +95,7 @@ const fadeAht = (step) => {
   for (let i = 0; i < 40; i++) {
     for (let j = 0; j < 40; j++) {
       let live = 0;
-      
+
       if (!newState[i]) {
         newState[i] = [];
       }
@@ -119,8 +112,14 @@ const fadeAht = (step) => {
 
       if (state[i][j] === 1 && live < 2) {
         newState[i][j] = 0;
+      } else if (state[i][j] === 1 && (live === 2 || live === 3)) {
+        newState[i][j] = 1;
+      } else if (state[i][j] === 1 && live > 3) {
+        newState[i][j] = 0;
       } else if (state[i][j] === 0 && live === 3) {
         newState[i][j] = 1;
+      } else {
+        newState[i][j] = state[i][j];
       }
 
       ctx.beginPath();
@@ -424,7 +423,7 @@ const splashes = (step, cs, ps) => {
 
 const all = (step, cs, rs) => {
   clearCanvas();
-  fadeAht(step, cs, rs);
+  conway(step, cs, rs);
 }
 
 /**
@@ -445,7 +444,7 @@ const drawAutomata = (automata) => {
       }
 
       automata(step, cs++, ps += 0.5);
-    }, 1000);
+    }, TIME_BETWEEN_DRAWS);
 
     return interval;
   }
