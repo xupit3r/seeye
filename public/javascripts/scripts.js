@@ -48,7 +48,7 @@ const initState = () => {
         state[i] = [];
       }
 
-      state[i][j] = Math.random() > .6 ? 1 : 0;
+      state[i][j] = Math.random() > .5 ? 1 : 0;
     }
   }
 
@@ -87,7 +87,7 @@ const paint = (i, j) => {
   }
 }
 
-const conway = (step) => {
+const conway = () => {
   const ctx = verifyCanvas();
 
   const newState = [];
@@ -110,12 +110,10 @@ const conway = (step) => {
         }
       }
 
-      if (state[i][j] === 1 && live < 2) {
+      if (state[i][j] === 1 && (live < 2 || live > 3)) {
         newState[i][j] = 0;
       } else if (state[i][j] === 1 && (live === 2 || live === 3)) {
         newState[i][j] = 1;
-      } else if (state[i][j] === 1 && live > 3) {
-        newState[i][j] = 0;
       } else if (state[i][j] === 0 && live === 3) {
         newState[i][j] = 1;
       } else {
